@@ -1,0 +1,34 @@
+.menu{
+    border: 1px solid black;
+    background-color: #e7e7e7;
+    width: 15%;
+    min-height: 650px;
+}
+.inputWitdh{
+    height: 50px;
+    width: 150px;
+}
+.parent{
+    width: 85%;
+}
+.content{
+    margin: 5px;
+}
+
+.createForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 200px;
+    width: 300px;
+}
+.linkBackground{
+    background-color: rgb(110, 220, 240);
+    color: black;
+}
+.linkHover{
+    color: black;
+}
+.linkHover:hover{
+    background-color: rgb(110, 220, 240);
+}
