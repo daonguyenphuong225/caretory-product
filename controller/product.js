@@ -1,7 +1,17 @@
 const ProductModel = require('../models/productSchema');
 
 exports.getList = function (req, res) {
-    res.render('product.ejs')
+   
+    ProductModel.find({})
+        .then(function (data) {
+            let products = {
+                products: data
+            }
+            res.render('product.ejs',products)
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
 }
 
 exports.getCreateForm = function (req, res) {
@@ -17,4 +27,14 @@ exports.create = function(req,res){
             return res.redirect('/product-list')
         }
     })
+}
+
+exports.deleteProduct = function (req, res) {
+    ProductModel.deleteOne({ _id: req.params.id })
+        .then(function () {
+            return res.redirect('/product-list')
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
 }

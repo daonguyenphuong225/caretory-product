@@ -16,7 +16,7 @@
         <div class=" menu">
             <nav class="nav flex-column border-dark">
                 <h4 class="nav-link">MENU</h4>
-                <a class="nav-link linkHover" href="/caretory-list">Danh mục</a>
+                <a class="nav-link linkHover" href="/category-list">Danh mục</a>
                 <a class="nav-link linkBackground" href="/product-list">Sản phẩm</a>
             </nav>
         </div>
@@ -42,27 +42,33 @@
             <div class="content">
                 <table border="1" class="w-100">
                     <tr>
-                        <td>Ảnh</td>
-                        <td>Tên</td>
-                        <td>Mô tả</td>
-                        <td>Giá</td>
-                        <td>SL</td>  
-                        <td>Tạo</td> 
-                        <td>Cập nhật</td> 
-                        <td>Trạng thái</td> 
-                        <td>Hành động</td> 
+                        <td><h6>Ảnh</h6></td>
+                        <td><h6>Tên</h6></td>
+                        <td><h6>Mô tả</h6></td>
+                        <td><h6>Giá</h6></td>
+                        <td><h6>SL</h6></td>  
+                        <td><h6>Tạo,Cập nhật</h6></td> 
+                        <td><h6>Trạng thái</h6></td> 
+                        <td><h6>Hành động</h6></td> 
                     </tr>
+                    <%for (const product of products) { %>
                     <tr>
-                        <td>adsad</td>
-                        <td>ádá</td>
-                        <td>Máđâs</td>
-                        <td>312312</td>
-                        <td>432</td>  
-                        <td>12312312</td> 
-                        <td>23123 </td> 
-                        <td>312</td> 
-                        <td>321312</td> 
+                        <td><%=product.picture %></td>
+                        <td><%=product.name %></td>
+                        <td><%=product.description %></td>
+                        <td><%=product.price %></td>  
+                        <td><%=product.ammount %></td> 
+                        <td>
+                            <%=product.created_at %> <br>
+                            <%=product.updated_at %>
+                        </td> 
+                        <td><%=product.status %></td> 
+                        <td class="d-flex">
+                            <form action=""><button class="btn btn-primary ">Sửa</button></form>
+                            <form action="/delete/product/<%=product.id%>" method="POST"><button class="btn btn-danger ">Xoá</button></form>
+                        </td> 
                     </tr>
+                    <% } %>
                 </table>
             </div>
         </div>

@@ -12,11 +12,14 @@
     <form action="/categories" method="post" class="createForm">
 
         <input name ="name" type="text" placeholder="Tên danh mục"> 
-        <input name="createTime" type="text" placeholder="Thời gian tạo">
-        <input name="updateTime" type="text" placeholder="Thời gian cập nhật">
-        <input name="status" type="text" placeholder="Trạng thái">
+        <select  name="status" id="">
+            <option value="">Trạng thái</option>
+            <option value="Hoạt động">Hoạt động</option>
+            <option value="Tạm ngừng">Tạm ngừng</option>
+        </select>
         <input name="productIds" type="text" placeholder="id sản phẩm">
         <button>Tạo mới</button>
     </form>
+    <button><a href="category-list">Quay lại</a></button>
 </body>
 </html>

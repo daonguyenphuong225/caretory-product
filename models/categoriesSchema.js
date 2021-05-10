@@ -5,22 +5,15 @@ var CategorySchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    createTime:{
-        type: String,
-        required: true,
-        trim: true
-    },
-    updateTime:{
-        type: String,
-        required: true,
-        trim: true
-    },
     status:{
         type: String,
         required: true,
         trim: true
     },
     productIds: [],
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 var CategoryModel = mongoose.model('category',CategorySchema)
 
