@@ -23,52 +23,104 @@
         <div class="parent">
             <nav class="navbar navbar-dark bg-primary">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="#">Sản phẩm</a>
+                    <a class="navbar-brand" href="product-list">Sản phẩm</a>
                 </div>
-              </nav>
+            </nav>
             <div class="d-flex align-items-center">
-                <form action="">
+                <form action="/product-list/search" method="GET">
                     <input class="inputWitdh" type="text" placeholder="Tên sản phẩm">
-                    <select class="inputWitdh" name="" id="">
+                    <select class="inputWitdh" name="status" id="">
+                        <option value="">Khoảng giá</option>
+                        <option value="Hoạt động">Hoạt động</option>
+                        <option value="Tạm ngừng">Tạm ngừng</option>
+                    </select>
+                    <select class="inputWitdh" name="status" id="">
                         <option value="">Trạng thái</option>
-                        <option value="">Hoạt động</option>
-                        <option value="">Tạm ngừng</option>
+                        <option value="Hoạt động">Hoạt động</option>
+                        <option value="Tạm ngừng">Tạm ngừng</option>
                     </select>
                     <button type="button" class="btn btn-primary m-2 ">Bộ lọc</button>
                 </form>
-                <a href="product-create"> <button  type="button" class="btn btn-success m-2">Thêm mới</button></a>
+                <a href="product-create"> <button type="button" class="btn btn-success m-2">Thêm mới</button></a>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Sắp xếp
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <form action="/product-list" method="GET">
+                            <li><button name="arrange" value="0" class="dropdown-item ">Tên</button></li>
+                            <li><button name="arrange" value="1" class="dropdown-item">Cũ-Mới</button></li>
+                            <li><button name="arrange" value="2" class="dropdown-item">Mới-Cũ</button></li>
+                            <li><button name="arrange" value="3" class="dropdown-item">Giá Thấp-Cao</button></li>
+                            <li><button name="arrange" value="4" class="dropdown-item">Giá Cao-Thấp</button></li>
+                        </form>
+                    </ul>
+                </div>
             </div>
 
             <div class="content">
-                <table border="1" class="w-100">
+                <table border="1" class="w-100 table table-striped">
                     <tr>
-                        <td><h6>Ảnh</h6></td>
-                        <td><h6>Tên</h6></td>
-                        <td><h6>Mô tả</h6></td>
-                        <td><h6>Giá</h6></td>
-                        <td><h6>SL</h6></td>  
-                        <td><h6>Tạo,Cập nhật</h6></td> 
-                        <td><h6>Trạng thái</h6></td> 
-                        <td><h6>Hành động</h6></td> 
+                        <td>
+                            <h6>Ảnh</h6>
+                        </td>
+                        <td>
+                            <h6>Tên</h6>
+                        </td>
+                        <td>
+                            <h6>Mô tả</h6>
+                        </td>
+                        <td>
+                            <h6>Giá (VND)</h6>
+                        </td>
+                        <td>
+                            <h6>SL</h6>
+                        </td>
+                        <td>
+                            <h6>Tạo,Cập nhật</h6>
+                        </td>
+                        <td>
+                            <h6>Trạng thái</h6>
+                        </td>
+                        <td>
+                            <h6>Hành động</h6>
+                        </td>
                     </tr>
                     <%for (const product of products) { %>
-                    <tr>
-                        <td><%=product.picture %></td>
-                        <td><%=product.name %></td>
-                        <td><%=product.description %></td>
-                        <td><%=product.price %></td>  
-                        <td><%=product.ammount %></td> 
-                        <td>
-                            <%=product.created_at %> <br>
-                            <%=product.updated_at %>
-                        </td> 
-                        <td><%=product.status %></td> 
-                        <td class="d-flex">
-                            <form action=""><button class="btn btn-primary ">Sửa</button></form>
-                            <form action="/delete/product/<%=product.id%>" method="POST"><button class="btn btn-danger ">Xoá</button></form>
-                        </td> 
-                    </tr>
-                    <% } %>
+                        <tr>
+                            <td>
+                                <%=product.picture %>
+                            </td>
+                            <td>
+                                <%=product.name %>
+                            </td>
+                            <td>
+                                <%=product.description %>
+                            </td>
+                            <td>
+                                <%=product.price %>
+                            </td>
+                            <td>
+                                <%=product.ammount %>
+                            </td>
+                            <td>
+                                <%=product.created_at %> <br>
+                                    <%=product.updated_at %>
+                            </td>
+                            <td>
+                                <%=product.status %>
+                            </td>
+                            <td>
+                                <form class="d-inline" action="/product-list/update/<%=product.id%>" method="GET">
+                                    <input type="hidden" name="" value="<%=product.id%>">
+                                    <button class="btn btn-primary update">Sửa</button> 
+                                </form>
+                                <form class="d-inline" action="/delete/product/<%=product.id%>" method="POST"><button
+                                        class="btn btn-danger ">Xoá</button></form>
+                            </td>
+                        </tr>
+                        <% } %>
                 </table>
             </div>
         </div>

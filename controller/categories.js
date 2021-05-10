@@ -1,8 +1,18 @@
 const CategoryModel = require('../models/categoriesSchema')
 
 exports.getList = function (req, res) {
+        let arrange = {}
+        if(req.query.arrange == 0){
+            arrange = {"name":1}
+        }
+        if(req.query.arrange == 1){
+            arrange = {"created_at":1}
+        }
+        if(req.query.arrange == 2){
+            arrange = {"created_at":-1}
+        }
+        CategoryModel.find({}).sort(arrange) 
 
-    CategoryModel.find({})
         .then(function (data) {
             let categories = {
                 categories: data
@@ -53,7 +63,7 @@ exports.seacrchCategory = function (req, res) {
             })
     }
     if (status == "" ) {
-        CategoryModel.find({ name: { '$regex': req.query.name } })
+        CategoryModel.find({ name: {'$regex': req.query.name}})
             .then(function (data) {
                 let categories = {
                     categories: data
@@ -107,7 +117,7 @@ exports.update = function (req, res) {
             productIds:req.body.productIds,
         })
         .then(function () {
-            return res.redirect('/category-list')
+            res.redirect('/category-list')
         })
         .catch(function (err) {
             console.log(err);

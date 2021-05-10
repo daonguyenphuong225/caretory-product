@@ -14,4 +14,5 @@ router.get('/category-list/search',CategoryController.seacrchCategory)
 router.get('/category-list/update/:id',CategoryController.updateForm)
 router.post('/category-list/update',CategoryController.update)
 
+
 module.exports = router
