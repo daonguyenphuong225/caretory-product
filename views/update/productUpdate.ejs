@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .createForm {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 400px;
+            width: 300px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sửa sản phẩm</h1>
+    <form action="/product-list/update" method="post" class="createForm">
+        <input type="hidden" name="id" value="<%=products[0].id%>">
+        Ảnh sản phẩm: <input name="picture" type="text" value="<%=products[0].picture%>">
+        Tên sản phẩm: <input name="name" type="text" value="<%=products[0].name%>">
+        Mô tả sản phẩm: <input name="description" type="text" value="<%=products[0].description%>">
+        Giá sản phẩm (VND): <input name="price" type="text" value="<%=products[0].price%>">
+        Số lượng sản phẩm: <input name="ammount" type="text" value="<%=products[0].ammount%>">
+        Trạng thái:<select name="status" id="">
+            <option value="Hoạt động">Hoạt động</option>
+            <option value="Tạm ngừng">Tạm ngừng</option>
+        </select>
+        <button>Cập nhật</button>
+    </form>
+<form action="/product-list" method="GET"><button>Quay lại</button></form>
+    
+</body>
+
+</html>
