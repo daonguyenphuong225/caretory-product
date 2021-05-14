@@ -23,64 +23,145 @@
         <div class="parent">
             <nav class="navbar navbar-dark bg-primary">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="category-list">Danh mục</a>
+                    <a class="navbar-brand" href="category-list">Danh mục</a>
                 </div>
-              </nav>
+            </nav>
             <div class="d-flex align-items-center">
-                <form action="/category-list/search" method="GET">
-                    <input name="name" class="inputWitdh" type="text" placeholder="Tên danh mục">
-                    <select class="inputWitdh" name="status" id="">
-                        <option value="">Trạng thái</option>
+                <div class="d-flex align-items-center m-2 rounded-pill  bg-info">
+                    <h6 class="fw-bold m-2">Lọc theo:</h6>
+                <form action="/category-list" method="GET">
+                    <input name="name" class="inputWitdh m-2" type="text" value="<%=match.name%>" placeholder="Tên danh mục">
+                    <select class="inputWitdh m-2" name="status">
+                        <option value="" disabled selected>Trạng thái</option>
                         <option value="Hoạt động">Hoạt động</option>
                         <option value="Tạm ngừng">Tạm ngừng</option>
                     </select>
-                    <button  class="btn btn-primary m-2 ">Bộ lọc</button>
+                    <button class="btn btn-dark rounded-pill m-2 ">Bộ lọc</button>
                 </form>
-                <a href="category-create"> <button  type="button" class="btn btn-success m-2">Thêm mới</button></a>
+            </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Thêm mới
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thêm mới danh mục</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/categories" method="post" class="createForm">
+                                    Tên danh mục:<input name="name" type="text">
+                                    Trạng thái:<select name="status" id="">
+                                        <option value="Hoạt động">Hoạt động</option>
+                                        <option value="Tạm ngừng">Tạm ngừng</option>
+                                    </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button  class="btn btn-primary">Tạo mới</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                      Sắp xếp 
+                    <button class="btn btn-secondary dropdown-toggle rounded-pill" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Sắp xếp
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                     <form action="/category-list" method="GET"> 
-                         <li><button name="arrange" value="0" class="dropdown-item " >Tên</button></li>
-                        <li><button name="arrange" value="1" class="dropdown-item" >Cũ-Mới</button></li>
-                        <li><button name="arrange" value="2" class="dropdown-item" >Mới-Cũ</button></li>
-                    </form>
+                        <form action="/category-list" method="GET">
+                            <li><button name="sort" value="0" class="dropdown-item ">Tên</button></li>
+                            <li><button name="sort" value="1" class="dropdown-item">Cũ-Mới</button></li>
+                            <li><button name="sort" value="2" class="dropdown-item">Mới-Cũ</button></li>
+                        </form>
                     </ul>
-                  </div>
+                </div>
             </div>
 
             <div class="content">
                 <table border="1" class="w-100 table table-striped">
                     <tr>
-                        <td><h6>Tên</h6></td>
-                        <td><h6>Tạo,Cập nhật</h6></td>
-                        <td><h6>Trạng thái</h6></td>
-                        <td><h6>Hành động</h6></td>
+                        <td>
+                            <h6>Tên</h6>
+                        </td>
+                        <td>
+                            <h6>Tạo,Cập nhật</h6>
+                        </td>
+                        <td>
+                            <h6>Trạng thái</h6>
+                        </td>
+                        <td>
+                            <h6>Hành động</h6>
+                        </td>
                     </tr>
                     <%for (const category of categories) { %>
-                    <tr>
-                        <td class="test"><%=category.name %></td>
-                        <td>
-                            <%=category.created_at %> <br>
-                            <%=category.updated_at %>
-                        </td>
-                        <td> <%=category.status %></td>  
-                        <td class="">
-                            <form class="d-inline" action="/category-list/update/<%=category.id%>" method="GET">
-                                <input type="hidden" name="" value="<%=category.id%>">
-                                <button class="btn btn-primary update">Sửa</button> 
-                            </form>
-                            <form class="d-inline" action="/delete/category/<%=category.id%>" method="POST"><button class="btn btn-danger ">Xoá</button></form>
-                        </td> 
-                    </tr>
-                    <% } %>
+                        <tr>
+                            <td class="test">
+                                <%=category.name %>
+                            </td>
+                            <td>
+
+                                <%=dayjs(category.created_at).format('DD/MM/YYYY')%> <br>
+                                    <%=dayjs(category.updated_at).format('DD/MM/YYYY') %>
+                            </td>
+                            <td>
+                                <%=category.status %>
+                            </td>
+                            <td class="">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#a-<%=category.id%>">
+                                    Sửa
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="a-<%=category.id%>" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/category-list/update" method="post" class="updateForm h-100">
+                                                    <input type="hidden" name="id" value="<%=category.id%>">
+                                                    Tên danh mục: <input name="name" type="text"
+                                                        value="<%=category.name%>">
+                                                    Trạng thái:<select name="status" id="">
+                                                        <option value="Hoạt động">Hoạt động</option>
+                                                        <option value="Tạm ngừng">Tạm ngừng</option>
+                                                    </select>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Đóng</button>
+                                                <button class="btn btn-primary">Lưu thay đổi</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form class="d-inline" action="/delete/category/<%=category.id%>" method="POST"><button
+                                        class="btn btn-danger ">Xoá</button></form>
+                            </td>
+                        </tr>
+                        <% } %>
                 </table>
             </div>
         </div>
     </div>
 </body>
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>

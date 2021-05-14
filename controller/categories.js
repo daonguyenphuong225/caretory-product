@@ -1,23 +1,40 @@
 const CategoryModel = require('../models/categoriesSchema')
+const dayjs = require('dayjs')
+const {fullTextSearch} = require('../until/until')
 
 exports.getList = function (req, res) {
-        let arrange = {}
-        if(req.query.arrange == 0){
-            arrange = {"name":1}
-        }
-        if(req.query.arrange == 1){
-            arrange = {"created_at":1}
-        }
-        if(req.query.arrange == 2){
-            arrange = {"created_at":-1}
-        }
-        CategoryModel.find({}).sort(arrange) 
+    let {name, status, sort} = req.query
+    
+
+    if (sort == 0) {
+        sort = { "name": 1 }
+    }
+    if (sort == 1) {
+        sort = { "created_at": 1 }
+    }
+    if (sort == 2) {
+        sort = { "created_at": -1 }
+    }
+
+    let match = {}
+
+    if (name) {
+        match.name = fullTextSearch(name) 
+    }
+
+    if (status) {
+        match.status = status
+    }
+
+    CategoryModel.find(match).sort(sort)
 
         .then(function (data) {
-            let categories = {
-                categories: data
+            let rs = {
+                categories: data,
+                match: req.query,
+                dayjs: dayjs,
             }
-            res.render('category.ejs', categories)
+            res.render('category.ejs', rs)
         })
         .catch(function (err) {
             console.log(err);
@@ -47,66 +64,6 @@ exports.deleteCategory = function (req, res) {
         })
 }
 
-exports.seacrchCategory = function (req, res) {
-    let name = req.query.name
-    let status = req.query.status
-    if (name == '') {
-        CategoryModel.find({ status: req.query.status })
-            .then(function (data) {
-                let categories = {
-                    categories: data
-                }
-                res.render('./search/category.ejs', categories)
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
-    }
-    if (status == "" ) {
-        CategoryModel.find({ name: {'$regex': req.query.name}})
-            .then(function (data) {
-                let categories = {
-                    categories: data
-                }
-                res.render('./search/category.ejs', categories)
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
-    } else {
-        CategoryModel.find({
-            name: { '$regex': req.query.name },
-            status: req.query.status
-        })
-            .then(function (data) {
-                let categories = {
-                    categories: data
-                }
-                res.render('./search/category.ejs', categories)
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
-    }
-
-
-}
-
-exports.updateForm = function (req, res) {
-    let id = req.params.id
-    CategoryModel.find({_id: id})
-        .then(function (data) {
-            let categories = {
-                categories: data
-            }
-            res.render('./update/categoryUpdate.ejs', categories)
-        })
-        .catch(function (err) {
-            console.log(err);
-        })
-    
-
-}
 
 exports.update = function (req, res) {
     CategoryModel.updateOne(
@@ -114,7 +71,6 @@ exports.update = function (req, res) {
         {
             name: req.body.name,
             status: req.body.status,
-            productIds:req.body.productIds,
         })
         .then(function () {
             res.redirect('/category-list')
